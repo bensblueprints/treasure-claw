@@ -5,57 +5,72 @@
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 220 20% 15%;
+    --foreground: 220 20% 12%;
     --card: 0 0% 100%;
-    --card-foreground: 220 20% 15%;
+    --card-foreground: 220 20% 12%;
     --popover: 0 0% 100%;
-    --popover-foreground: 220 20% 15%;
-    --primary: 25 95% 55%;
+    --popover-foreground: 220 20% 12%;
+    --primary: 25 95% 52%;
     --primary-foreground: 0 0% 100%;
     --secondary: 220 14% 96%;
-    --secondary-foreground: 220 20% 15%;
+    --secondary-foreground: 220 20% 12%;
     --muted: 220 14% 96%;
-    --muted-foreground: 220 9% 46%;
-    --accent: 25 95% 55%;
+    --muted-foreground: 220 9% 42%;
+    --accent: 25 95% 52%;
     --accent-foreground: 0 0% 100%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
-    --ring: 25 95% 55%;
+    --border: 220 13% 90%;
+    --input: 220 13% 90%;
+    --ring: 25 95% 52%;
     --radius: 0.75rem;
   }
-}
 
-@layer base {
   * {
     @apply border-border;
   }
+
   html {
     scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
+
   body {
-    @apply bg-background text-foreground font-body antialiased;
+    @apply bg-background text-foreground antialiased;
     overflow-x: hidden;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  ::selection {
+    background-color: rgba(232, 119, 34, 0.15);
   }
 }
 
 @layer components {
+  /* Font utilities */
   .font-display {
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Montserrat', system-ui, sans-serif;
   }
   .font-body {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Inter', system-ui, sans-serif;
   }
   .font-ui {
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: 'Space Grotesk', system-ui, sans-serif;
   }
 
+  /* Brand color utilities */
   .text-brand {
     color: #E87722;
   }
   .bg-brand {
     background-color: #E87722;
+  }
+  .bg-brand-dark {
+    background-color: #C75D0F;
+  }
+  .bg-brand-light {
+    background-color: #FFF5ED;
   }
   .border-brand {
     border-color: #E87722;
@@ -64,25 +79,107 @@
     --tw-ring-color: #E87722;
   }
 
-  .btn-brand {
-    @apply bg-brand text-white font-ui font-semibold px-6 py-3 rounded-lg transition-all duration-200;
-  }
-  .btn-brand:hover {
-    @apply brightness-110 -translate-y-0.5 shadow-lg;
-  }
-
-  .btn-outline-brand {
-    @apply border-2 border-brand text-brand font-ui font-semibold px-6 py-3 rounded-lg transition-all duration-200;
-  }
-  .btn-outline-brand:hover {
-    @apply bg-brand text-white -translate-y-0.5;
-  }
-
+  /* Premium spacing scale */
   .section-padding {
-    @apply py-20 md:py-28;
+    @apply py-24 md:py-32;
+  }
+  .section-padding-sm {
+    @apply py-16 md:py-24;
   }
 
+  /* Container with refined padding */
   .container-custom {
-    @apply max-w-7xl mx-auto px-6 md:px-12;
+    @apply max-w-7xl mx-auto px-5 sm:px-8 lg:px-12;
+  }
+
+  /* Section overline — premium sites always have these */
+  .section-overline {
+    @apply inline-flex items-center gap-2 text-brand font-ui text-xs font-semibold uppercase tracking-[0.15em] mb-5;
+  }
+
+  /* Section heading */
+  .section-heading {
+    @apply font-display font-bold text-3xl md:text-4xl lg:text-[2.75rem] text-foreground tracking-tight leading-[1.15];
+  }
+
+  /* Section subtext */
+  .section-subtext {
+    @apply font-body text-muted-foreground text-base md:text-lg leading-relaxed max-w-2xl;
+  }
+
+  /* Premium card base */
+  .card-premium {
+    @apply bg-white rounded-2xl border border-border/60 overflow-hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.02);
+    transition: box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .card-premium:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06), 0 16px 48px rgba(0,0,0,0.04);
+    transform: translateY(-4px);
+  }
+
+  /* Button premium */
+  .btn-premium {
+    @apply bg-brand text-white font-ui font-semibold px-7 py-3.5 rounded-xl;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 1px 2px rgba(232, 119, 34, 0.2), 0 4px 12px rgba(232, 119, 34, 0.15);
+  }
+  .btn-premium:hover {
+    @apply bg-brand-dark;
+    box-shadow: 0 4px 8px rgba(232, 119, 34, 0.25), 0 8px 24px rgba(232, 119, 34, 0.15);
+    transform: translateY(-2px);
+  }
+
+  /* Outline button premium */
+  .btn-outline-premium {
+    @apply border-2 border-brand/20 text-brand font-ui font-semibold px-7 py-3.5 rounded-xl bg-transparent;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .btn-outline-premium:hover {
+    @apply bg-brand text-white border-brand;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(232, 119, 34, 0.15);
+  }
+
+  /* Quote styling */
+  .quote-mark {
+    @apply text-brand/20 font-display text-6xl leading-none select-none;
+  }
+
+  /* Star rating */
+  .star-filled {
+    color: #E87722;
+  }
+  .star-empty {
+    color: #E5E7EB;
+  }
+
+  /* Subtle gradient backgrounds */
+  .bg-gradient-hero {
+    background: linear-gradient(135deg, #FFF8F3 0%, #FFFFFF 50%, #FFF5ED 100%);
+  }
+  .bg-gradient-warm {
+    background: linear-gradient(180deg, #FAFBFC 0%, #F8F6F4 100%);
+  }
+
+  /* Image overlay for premium feel */
+  .img-overlay {
+    @apply absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent;
+  }
+
+  /* Smooth image hover */
+  .img-hover-zoom {
+    @apply overflow-hidden;
+  }
+  .img-hover-zoom img {
+    transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .img-hover-zoom:hover img {
+    transform: scale(1.05);
+  }
+
+  /* Divider dot */
+  .divider-dot {
+    @apply w-1.5 h-1.5 rounded-full bg-brand/[0.30];
   }
 }

@@ -2,7 +2,7 @@ import { useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useGSAP } from '@gsap/react'
-import { Cake, Calendar, Package, Gem } from 'lucide-react'
+import { Cake, Calendar, Package, Gem, ArrowRight } from 'lucide-react'
 import { Button } from '../components/ui/button'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -10,27 +10,31 @@ gsap.registerPlugin(ScrollTrigger)
 const services = [
   {
     icon: Cake,
-    title: 'PARTIES',
-    desc: 'Celebrate your birthday or special event at TreasureClaw with customizable party packages for exclusive arcade access.',
+    title: 'Birthday Parties',
+    desc: 'Private party packages with exclusive arcade access, customizable themes, and dedicated staff to make every celebration unforgettable.',
     image: '/party.jpg',
+    tag: 'Most Popular',
   },
   {
     icon: Calendar,
-    title: 'UP COMING EVENTS',
-    desc: 'Join us for exciting themed nights like BYOB competitions, Toddler Time mornings, and special events like Pokémon Day.',
+    title: 'Special Events',
+    desc: 'Themed nights including BYOB competitions, Toddler Time mornings, Pokémon Day, and seasonal celebrations for all ages.',
     image: '/event-night.jpg',
+    tag: null,
   },
   {
     icon: Package,
-    title: 'INVENTORY',
-    desc: 'We stock rotating anime, Disney, gaming, and collectible items along with viral Asian snacks and specialty ice creams, with new items added regularly to keep every visit fresh.',
+    title: 'Prize Inventory',
+    desc: 'Rotating selection of anime, Disney, gaming collectibles, viral Asian snacks, and specialty ice creams you won\'t find locally.',
     image: '/portal-plush.jpg',
+    tag: 'New Items Weekly',
   },
   {
     icon: Gem,
-    title: 'DIAMOND CLUB',
-    desc: 'An insider group where top players earn diamonds to unlock early access to new prizes, join blind taste tests and reaction videos on YouTube, and help choose future merch and event themes at TreasureClaw.',
+    title: 'Diamond Club',
+    desc: 'Our exclusive insiders group. Earn diamonds for early prize access, join blind taste tests, and help shape future events.',
     image: '/prize-pit.jpg',
+    tag: 'Elite',
   },
 ]
 
@@ -45,9 +49,9 @@ export default function ServicesSection() {
     if (!cards) return
 
     gsap.fromTo(cards,
-      { y: 40, opacity: 0 },
+      { y: 50, opacity: 0 },
       {
-        y: 0, opacity: 1, duration: 0.5, stagger: 0.1, ease: 'power2.out',
+        y: 0, opacity: 1, duration: 0.6, stagger: 0.12, ease: 'power3.out',
         scrollTrigger: { trigger: section, start: 'top 75%', toggleActions: 'play none none reverse' }
       }
     )
@@ -56,50 +60,76 @@ export default function ServicesSection() {
   return (
     <section ref={sectionRef} className="section-padding bg-white" id="services">
       <div className="container-custom">
-        <div className="text-center mb-14">
-          <h2 className="font-display font-bold text-3xl md:text-4xl text-foreground mb-3">
-            Our Services
+        {/* Section header */}
+        <div className="max-w-2xl mb-16">
+          <div className="section-overline">
+            <span className="w-8 h-px bg-brand" />
+            What We Offer
+          </div>
+          <h2 className="section-heading mb-5">
+            Services Built for Fun
           </h2>
-          <p className="font-body text-muted-foreground max-w-lg mx-auto">
-            This text briefly introduces your main services to your visitors.
+          <p className="section-subtext">
+            From private parties to exclusive memberships, we've crafted experiences 
+            that bring families and friends together for unforgettable moments.
           </p>
         </div>
 
-        <div ref={cardsRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {/* Cards grid */}
+        <div ref={cardsRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
           {services.map((service, i) => (
             <div
               key={i}
-              className="group bg-white rounded-2xl border border-border overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+              className="card-premium group cursor-pointer"
             >
-              <div className="aspect-[3/4] overflow-hidden">
+              {/* Image */}
+              <div className="relative aspect-[4/3] overflow-hidden">
                 <img
                   src={service.image}
                   alt={service.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                
+                {/* Tag */}
+                {service.tag && (
+                  <div className="absolute top-3 left-3 bg-white/95 backdrop-blur-sm text-brand font-ui text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-lg shadow-sm">
+                    {service.tag}
+                  </div>
+                )}
               </div>
-              <div className="p-5">
-                <div className="flex items-center gap-2 mb-2">
-                  <service.icon size={18} className="text-brand" />
-                  <h4 className="font-display font-bold text-sm text-foreground tracking-wide">
+
+              {/* Content */}
+              <div className="p-5 lg:p-6">
+                <div className="flex items-center gap-2.5 mb-3">
+                  <div className="w-9 h-9 rounded-lg bg-brand/[0.08] flex items-center justify-center">
+                    <service.icon size={18} className="text-brand" strokeWidth={2} />
+                  </div>
+                  <h4 className="font-display font-bold text-sm text-foreground tracking-wide uppercase">
                     {service.title}
                   </h4>
                 </div>
-                <p className="font-body text-muted-foreground text-sm leading-relaxed">
+                <p className="font-body text-muted-foreground text-sm leading-relaxed mb-4">
                   {service.desc}
                 </p>
+                <div className="flex items-center gap-1 text-brand font-ui text-sm font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300 -translate-x-1 group-hover:translate-x-0">
+                  Learn more
+                  <ArrowRight size={14} />
+                </div>
               </div>
             </div>
           ))}
         </div>
 
-        <div className="text-center mt-10">
+        {/* CTA */}
+        <div className="text-center mt-14">
           <Button
             onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
             variant="outline"
-            className="border-brand text-brand hover:bg-brand hover:text-white font-ui"
+            className="btn-outline-premium"
           >
             View all services
+            <ArrowRight size={16} className="ml-1.5" />
           </Button>
         </div>
       </div>
