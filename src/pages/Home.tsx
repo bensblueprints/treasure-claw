@@ -9,17 +9,18 @@ import PrizePitScene from '../sections/PrizePitScene'
 import WinFlashScene from '../sections/WinFlashScene'
 import SkylineTravelScene from '../sections/SkylineTravelScene'
 import TouchdownScene from '../sections/TouchdownScene'
+import StatsSection from '../sections/StatsSection'
 import FeaturePanel from '../sections/FeaturePanel'
 import PrizesSection from '../sections/PrizesSection'
 import EventsSection from '../sections/EventsSection'
 import TestimonialsSection from '../sections/TestimonialsSection'
+import FAQSection from '../sections/FAQSection'
 import Footer from '../sections/Footer'
 
 gsap.registerPlugin(ScrollTrigger)
 
 export default function Home() {
   useEffect(() => {
-    // Wait for all ScrollTriggers to be created
     const timer = setTimeout(() => {
       const pinned = ScrollTrigger.getAll()
         .filter(st => st.vars.pin)
@@ -34,17 +35,14 @@ export default function Home() {
         center: (st.start + ((st.end ?? st.start) - st.start) * 0.5) / maxScroll,
       }))
 
-      // Global snap configuration
       ScrollTrigger.create({
         snap: {
           snapTo: (value: number) => {
-            // Check if within any pinned range (with small buffer)
             const inPinned = pinnedRanges.some(
               r => value >= r.start - 0.02 && value <= r.end + 0.02
             )
-            if (!inPinned) return value // flowing section: free scroll
+            if (!inPinned) return value
 
-            // Find nearest pinned center
             const target = pinnedRanges.reduce((closest, r) =>
               Math.abs(r.center - value) < Math.abs(closest - value) ? r.center : closest,
               pinnedRanges[0]?.center ?? 0
@@ -73,12 +71,13 @@ export default function Home() {
       <WinFlashScene />
       <SkylineTravelScene />
       <TouchdownScene />
+      <StatsSection />
       <FeaturePanel />
       <PrizesSection />
       <EventsSection />
       <TestimonialsSection />
+      <FAQSection />
       <Footer />
-      {/* Grain overlay */}
       <div className="grain-overlay" />
     </main>
   )

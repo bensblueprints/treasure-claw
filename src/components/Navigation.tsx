@@ -24,15 +24,15 @@ export default function Navigation() {
   const navLinks = [
     { label: 'How It Works', id: 'how-it-works' },
     { label: 'Events', id: 'events' },
-    { label: 'Parties', id: 'parties' },
     { label: 'Prizes', id: 'prizes' },
+    { label: 'FAQ', id: 'faq' },
   ]
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-500 ${
         scrolled
-          ? 'bg-background/80 backdrop-blur-xl border-b border-border shadow-lg'
+          ? 'bg-background/70 backdrop-blur-2xl border-b border-white/5'
           : 'bg-transparent'
       }`}
     >
@@ -52,15 +52,14 @@ export default function Navigation() {
               key={link.id}
               variant="ghost"
               onClick={() => scrollTo(link.id)}
-              className="font-ui text-sm text-muted-foreground hover:text-foreground hover:bg-accent/10"
+              className="font-ui text-sm text-muted-foreground hover:text-foreground hover:bg-white/5 transition-all"
             >
               {link.label}
             </Button>
           ))}
           <Button
             onClick={() => scrollTo('contact')}
-            variant="outline"
-            className="ml-4 font-ui text-sm border-accent-teal text-accent-teal hover:bg-accent-teal/10 hover:text-foreground"
+            className="ml-4 font-ui text-sm bg-accent-pink text-background hover:bg-accent-pink/90 shadow-[0_0_15px_rgba(255,58,140,0.3)] hover:shadow-[0_0_25px_rgba(255,58,140,0.5)] transition-all"
           >
             Book Now
           </Button>
@@ -68,11 +67,11 @@ export default function Navigation() {
 
         <Sheet open={open} onOpenChange={setOpen}>
           <SheetTrigger asChild className="md:hidden">
-            <Button variant="ghost" size="icon" className="text-foreground hover:bg-accent/10">
+            <Button variant="ghost" size="icon" className="text-foreground hover:bg-white/5">
               <Menu size={24} />
             </Button>
           </SheetTrigger>
-          <SheetContent side="right" className="w-[300px] bg-background border-border">
+          <SheetContent side="right" className="w-[300px] bg-background/95 backdrop-blur-2xl border-border">
             <SheetTitle className="font-display font-black text-xl tracking-tight text-foreground flex items-center gap-2">
               <Gamepad2 className="h-5 w-5 text-accent-pink" />
               Treasure<span className="text-accent-pink">Claw</span>
@@ -83,15 +82,14 @@ export default function Navigation() {
                   key={link.id}
                   variant="ghost"
                   onClick={() => scrollTo(link.id)}
-                  className="justify-start font-ui text-muted-foreground hover:text-foreground hover:bg-accent/10"
+                  className="justify-start font-ui text-muted-foreground hover:text-foreground hover:bg-white/5"
                 >
                   {link.label}
                 </Button>
               ))}
               <Button
                 onClick={() => scrollTo('contact')}
-                variant="outline"
-                className="mt-4 font-ui border-accent-teal text-accent-teal hover:bg-accent-teal/10 hover:text-foreground"
+                className="mt-4 font-ui bg-accent-pink text-background hover:bg-accent-pink/90"
               >
                 Book Now
               </Button>
