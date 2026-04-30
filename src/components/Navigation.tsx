@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react'
-import { Menu, X } from 'lucide-react'
+import { Menu, Gamepad2 } from 'lucide-react'
+import { Button } from './ui/button'
+import { Sheet, SheetContent, SheetTrigger, SheetTitle } from './ui/sheet'
 
 export default function Navigation() {
-  const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const [open, setOpen] = useState(false)
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50)
-    }
+    const handleScroll = () => setScrolled(window.scrollY > 50)
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
@@ -17,79 +17,88 @@ export default function Navigation() {
     const el = document.getElementById(id)
     if (el) {
       el.scrollIntoView({ behavior: 'smooth' })
-      setIsOpen(false)
+      setOpen(false)
     }
   }
+
+  const navLinks = [
+    { label: 'How It Works', id: 'how-it-works' },
+    { label: 'Events', id: 'events' },
+    { label: 'Parties', id: 'parties' },
+    { label: 'Prizes', id: 'prizes' },
+  ]
 
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ${
-        scrolled ? 'bg-bg-primary/80 backdrop-blur-md border-b border-white/5' : 'bg-transparent'
+        scrolled
+          ? 'bg-background/80 backdrop-blur-xl border-b border-border shadow-lg'
+          : 'bg-transparent'
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-        <button
+        <Button
+          variant="ghost"
           onClick={() => scrollTo('hero')}
-          className="font-display font-black text-xl tracking-tight text-text-primary"
+          className="font-display font-black text-xl tracking-tight text-foreground hover:text-accent-pink hover:bg-transparent p-0 h-auto"
         >
+          <Gamepad2 className="mr-2 h-5 w-5 text-accent-pink" />
           Treasure<span className="text-accent-pink">Claw</span>
-        </button>
+        </Button>
 
-        <div className="hidden md:flex items-center gap-8">
-          <button
-            onClick={() => scrollTo('how-it-works')}
-            className="font-ui text-sm text-text-secondary hover:text-text-primary transition-colors"
-          >
-            How It Works
-          </button>
-          <button
-            onClick={() => scrollTo('events')}
-            className="font-ui text-sm text-text-secondary hover:text-text-primary transition-colors"
-          >
-            Events
-          </button>
-          <button
-            onClick={() => scrollTo('parties')}
-            className="font-ui text-sm text-text-secondary hover:text-text-primary transition-colors"
-          >
-            Parties
-          </button>
-          <button
-            onClick={() => scrollTo('prizes')}
-            className="font-ui text-sm text-text-secondary hover:text-text-primary transition-colors"
-          >
-            Prizes
-          </button>
-        </div>
-
-        <div className="hidden md:block">
-          <button
+        <div className="hidden md:flex items-center gap-1">
+          {navLinks.map((link) => (
+            <Button
+              key={link.id}
+              variant="ghost"
+              onClick={() => scrollTo(link.id)}
+              className="font-ui text-sm text-muted-foreground hover:text-foreground hover:bg-accent/10"
+            >
+              {link.label}
+            </Button>
+          ))}
+          <Button
             onClick={() => scrollTo('contact')}
-            className="btn-secondary text-sm py-2 px-4"
+            variant="outline"
+            className="ml-4 font-ui text-sm border-accent-teal text-accent-teal hover:bg-accent-teal/10 hover:text-foreground"
           >
             Book Now
-          </button>
+          </Button>
         </div>
 
-        <button
-          className="md:hidden text-text-primary"
-          onClick={() => setIsOpen(!isOpen)}
-        >
-          {isOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
+        <Sheet open={open} onOpenChange={setOpen}>
+          <SheetTrigger asChild className="md:hidden">
+            <Button variant="ghost" size="icon" className="text-foreground hover:bg-accent/10">
+              <Menu size={24} />
+            </Button>
+          </SheetTrigger>
+          <SheetContent side="right" className="w-[300px] bg-background border-border">
+            <SheetTitle className="font-display font-black text-xl tracking-tight text-foreground flex items-center gap-2">
+              <Gamepad2 className="h-5 w-5 text-accent-pink" />
+              Treasure<span className="text-accent-pink">Claw</span>
+            </SheetTitle>
+            <div className="flex flex-col gap-2 mt-8">
+              {navLinks.map((link) => (
+                <Button
+                  key={link.id}
+                  variant="ghost"
+                  onClick={() => scrollTo(link.id)}
+                  className="justify-start font-ui text-muted-foreground hover:text-foreground hover:bg-accent/10"
+                >
+                  {link.label}
+                </Button>
+              ))}
+              <Button
+                onClick={() => scrollTo('contact')}
+                variant="outline"
+                className="mt-4 font-ui border-accent-teal text-accent-teal hover:bg-accent-teal/10 hover:text-foreground"
+              >
+                Book Now
+              </Button>
+            </div>
+          </SheetContent>
+        </Sheet>
       </div>
-
-      {isOpen && (
-        <div className="md:hidden bg-bg-primary/95 backdrop-blur-lg border-t border-white/5">
-          <div className="flex flex-col p-6 gap-4">
-            <button onClick={() => scrollTo('how-it-works')} className="font-ui text-text-secondary hover:text-text-primary text-left">How It Works</button>
-            <button onClick={() => scrollTo('events')} className="font-ui text-text-secondary hover:text-text-primary text-left">Events</button>
-            <button onClick={() => scrollTo('parties')} className="font-ui text-text-secondary hover:text-text-primary text-left">Parties</button>
-            <button onClick={() => scrollTo('prizes')} className="font-ui text-text-secondary hover:text-text-primary text-left">Prizes</button>
-            <button onClick={() => scrollTo('contact')} className="btn-secondary text-center mt-2">Book Now</button>
-          </div>
-        </div>
-      )}
     </nav>
   )
 }

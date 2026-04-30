@@ -2,6 +2,9 @@ import { useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useGSAP } from '@gsap/react'
+import { Button } from '../components/ui/button'
+import { Badge } from '../components/ui/badge'
+import { Sparkles, CalendarDays } from 'lucide-react'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -26,7 +29,6 @@ export default function HeroScene() {
         pin: true,
         scrub: 0.5,
         onLeaveBack: () => {
-          // Reset all elements when scrolling back to top
           gsap.set([clawRef.current, headlineRef.current, subheadRef.current, ctaRef.current, badgeRef.current, bgRef.current], {
             clearProps: 'all'
           })
@@ -65,8 +67,6 @@ export default function HeroScene() {
       { scale: 1, opacity: 1, ease: 'none' },
       0.24
     )
-
-    // SETTLE (30-70%) - elements hold position, no keyframes
 
     // EXIT (70-100%)
     tl.to(headlineRef.current,
@@ -112,7 +112,7 @@ export default function HeroScene() {
           alt="Neon city skyline"
           className="w-full h-full object-cover opacity-60"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-bg-primary/40 via-transparent to-bg-primary/80" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-transparent to-background/80" />
       </div>
 
       {/* Claw arm at top */}
@@ -127,7 +127,7 @@ export default function HeroScene() {
       <div className="relative z-20 text-center px-6 max-w-4xl">
         <h1
           ref={headlineRef}
-          className="font-display font-black text-6xl md:text-8xl lg:text-[120px] text-text-primary leading-[0.9] tracking-tight mb-6"
+          className="font-display font-black text-6xl md:text-8xl lg:text-[120px] text-foreground leading-[0.9] tracking-tight mb-6"
         >
           GRAB IT.
         </h1>
@@ -136,24 +136,29 @@ export default function HeroScene() {
           <p className="font-ui text-xl md:text-2xl text-accent-teal font-semibold mb-2 tracking-wide">
             PLAY. WIN. UPGRADE.
           </p>
-          <p className="font-body text-text-secondary text-base md:text-lg max-w-lg mx-auto">
+          <p className="font-body text-muted-foreground text-base md:text-lg max-w-lg mx-auto">
             A claw-machine arcade for all ages in Twin Falls, Idaho.
           </p>
         </div>
 
         <div ref={ctaRef} className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-          <button
+          <Button
+            size="lg"
             onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
-            className="btn-primary text-lg"
+            className="bg-accent-pink text-background hover:bg-accent-pink/90 font-ui font-semibold text-lg px-8 py-6 shadow-neon-pink transition-all hover:-translate-y-0.5"
           >
+            <Sparkles className="mr-2 h-5 w-5" />
             Reserve a Party
-          </button>
-          <button
+          </Button>
+          <Button
+            size="lg"
+            variant="outline"
             onClick={() => document.getElementById('events')?.scrollIntoView({ behavior: 'smooth' })}
-            className="btn-secondary text-lg"
+            className="border-accent-teal text-accent-teal hover:bg-accent-teal/10 hover:text-foreground font-ui font-semibold text-lg px-8 py-6 transition-all hover:-translate-y-0.5"
           >
+            <CalendarDays className="mr-2 h-5 w-5" />
             See Events
-          </button>
+          </Button>
         </div>
       </div>
 
@@ -162,9 +167,12 @@ export default function HeroScene() {
         ref={badgeRef}
         className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20"
       >
-        <div className="pill-teal animate-neon-pulse">
+        <Badge
+          variant="outline"
+          className="bg-accent-teal/10 border-accent-teal/40 text-accent-teal font-ui text-sm px-4 py-1.5 animate-neon-pulse"
+        >
           Now Open &bull; Twin Falls, ID
-        </div>
+        </Badge>
       </div>
     </section>
   )

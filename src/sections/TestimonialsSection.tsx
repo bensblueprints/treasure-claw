@@ -2,7 +2,10 @@ import { useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useGSAP } from '@gsap/react'
-import { Quote } from 'lucide-react'
+import { Quote, Tv, BookOpen, Radio } from 'lucide-react'
+import { Card, CardContent } from '../components/ui/card'
+import { Badge } from '../components/ui/badge'
+import { Avatar, AvatarFallback } from '../components/ui/avatar'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -53,57 +56,72 @@ export default function TestimonialsSection() {
     },
   ]
 
+  const media = [
+    { name: 'KMVT Channel 11', icon: Tv },
+    { name: 'Magic Valley Magazine', icon: BookOpen },
+    { name: 'Sounds of the Scene', icon: Radio },
+  ]
+
   return (
     <section
       ref={sectionRef}
-      className="relative z-[70] bg-bg-primary py-24 md:py-32"
+      className="relative z-[70] bg-background py-24 md:py-32"
     >
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         <div className="text-center mb-12">
-          <span className="font-ui text-accent-teal text-sm tracking-[0.14em] uppercase mb-4 block">
+          <Badge
+            variant="outline"
+            className="bg-accent-teal/10 border-accent-teal/40 text-accent-teal font-ui text-xs tracking-[0.14em] uppercase mb-4"
+          >
             Reviews
-          </span>
-          <h2 className="font-display font-black text-4xl md:text-5xl text-text-primary leading-[0.95]">
+          </Badge>
+          <h2 className="font-display font-black text-4xl md:text-5xl text-foreground leading-[0.95]">
             Player Love
           </h2>
         </div>
 
         <div ref={cardsRef} className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {testimonials.map((t, i) => (
-            <div
+            <Card
               key={i}
-              className="card-dark p-6 relative"
+              className="bg-card/50 border-border/60 hover:border-accent-pink/30 transition-all duration-300 hover:-translate-y-1 relative group"
             >
-              <Quote size={24} className="text-accent-pink/40 mb-4" />
-              <p className="font-body text-text-secondary text-sm leading-relaxed mb-6">
-                "{t.quote}"
-              </p>
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-accent-pink to-accent-teal flex items-center justify-center">
-                  <span className="font-ui font-bold text-bg-primary text-sm">
-                    {t.author.split(' ').map(n => n[0]).join('')}
-                  </span>
+              <CardContent className="p-6">
+                <Quote size={24} className="text-accent-pink/40 mb-4" />
+                <p className="font-body text-muted-foreground text-sm leading-relaxed mb-6">
+                  &ldquo;{t.quote}&rdquo;
+                </p>
+                <div className="flex items-center gap-3">
+                  <Avatar className="h-10 w-10 bg-gradient-to-br from-accent-pink to-accent-teal">
+                    <AvatarFallback className="font-ui font-bold text-background text-sm bg-transparent">
+                      {t.author.split(' ').map(n => n[0]).join('')}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div>
+                    <p className="font-ui font-semibold text-foreground text-sm">{t.author}</p>
+                    <p className="font-body text-muted-foreground text-xs">{t.role}</p>
+                  </div>
                 </div>
-                <div>
-                  <p className="font-ui font-semibold text-text-primary text-sm">{t.author}</p>
-                  <p className="font-body text-text-secondary text-xs">{t.role}</p>
-                </div>
-              </div>
-            </div>
+              </CardContent>
+            </Card>
           ))}
         </div>
 
         {/* Media mentions */}
         <div className="mt-12 text-center">
-          <p className="font-body text-text-secondary text-sm mb-4">
+          <p className="font-body text-muted-foreground text-sm mb-4">
             Featured in:
           </p>
           <div className="flex flex-wrap items-center justify-center gap-6">
-            <span className="font-ui text-text-secondary/60 text-sm">KMVT Channel 11</span>
-            <span className="text-accent-pink">&bull;</span>
-            <span className="font-ui text-text-secondary/60 text-sm">Magic Valley Magazine</span>
-            <span className="text-accent-pink">&bull;</span>
-            <span className="font-ui text-text-secondary/60 text-sm">Sounds of the Scene</span>
+            {media.map((m, i) => (
+              <div key={i} className="flex items-center gap-2 text-muted-foreground/60">
+                <m.icon size={14} className="text-accent-pink" />
+                <span className="font-ui text-sm">{m.name}</span>
+                {i < media.length - 1 && (
+                  <span className="text-accent-pink ml-4">&bull;</span>
+                )}
+              </div>
+            ))}
           </div>
         </div>
       </div>
